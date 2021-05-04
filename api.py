@@ -3,7 +3,7 @@ from flask import request, jsonify
 from propre_tree import make_tree
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 @app.route('/propre/api', methods=['GET', 'POST'])
 def api_propre():
