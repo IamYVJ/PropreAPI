@@ -28,4 +28,5 @@ def api_propre():
     return results
     # return jsonify(results)
 
-app.run()
+if __name__ == '__main__':
+    app.run(threaded=True)
