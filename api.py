@@ -51,7 +51,9 @@ def api_propre_proof():
     if email!='' and check(email):
         make_email(email, results)
 
-    results = add_header(results)
+    # results = add_header(results)
+    results = jsonify(results)
+    results.headers.add("Access-Control-Allow-Origin", "*")
 
     return results
 
