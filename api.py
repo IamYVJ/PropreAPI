@@ -23,23 +23,57 @@ app.config["DEBUG"] = True
 @app.route('/propre-api/proof', methods=['GET', 'POST'])
 def api_propre_proof():
 
-    print("HELLO", request.get_json(force=True))
+    # files = []
+
+    # if 'files' in request.args:
+    #     files = request.args['files'].split()
+    # else:
+    #     error = {"Error" : "No Files Provided."}
+    #     return add_header(error)
+
+    # hashes = []
+    # if 'hashes' in request.args:
+    #     hashes = request.args['hashes'].split()
+    # else:
+    #     error = {"Error" : "No Hashes Provided."}
+    #     return add_header(error)
+
+    # if len(files)!=len(hashes):
+    #     error = {"Error" : "Different Number of Files and Hashes."}
+    #     return add_header(error)
+
+    # if len(files)==0:
+    #     error = {"Error" : "No Files Sent."}
+    #     return add_header(error)
+
+    # email = ''
+    # if 'email' in request.args:
+    #     email = request.args['email']
+
+    # results = make_tree(files, hashes)
+
+    # if email!='' and check(email):
+    #     make_email(email, results)
+
+    # results = add_header(results)
+    # # results = jsonify(results)
+    # # results.headers.add("Access-Control-Allow-Origin", "*")
+
+    # return results
+
+    data = request.get_json(force=True)
 
     files = []
-
-    if 'files' in request.args:
-        files = request.args['files'].split()
-    else:
-        error = {"Error" : "No Files Provided."}
-        return add_header(error)
-
     hashes = []
-    if 'hashes' in request.args:
-        hashes = request.args['hashes'].split()
-    else:
-        error = {"Error" : "No Hashes Provided."}
-        return add_header(error)
 
+    try:
+        for file_name in data["Files"]:
+            files.append(file_name)
+            hashes.append(data["Files"][file_name])
+    except:
+        error = {"Error" : "JSON Error"}
+        return add_header(error)
+    
     if len(files)!=len(hashes):
         error = {"Error" : "Different Number of Files and Hashes."}
         return add_header(error)
@@ -49,9 +83,11 @@ def api_propre_proof():
         return add_header(error)
 
     email = ''
-    if 'email' in request.args:
-        email = request.args['email']
-
+    try:
+        email = data["Email ID"]
+    except:
+        pass
+    
     results = make_tree(files, hashes)
 
     if email!='' and check(email):
