@@ -9,6 +9,7 @@ app.config["DEBUG"] = False
 def api_propre():
 
     files = []
+
     if 'files' in request.args:
         files = request.args['files'].split()
     else:
@@ -23,7 +24,16 @@ def api_propre():
     if len(files)!=len(hashes):
         return "Error: Different Number of Files and Hashes."
 
+
+    email = ''
+    if 'email' in request.args:
+        email = request.args['email']
+
     results = make_tree(files, hashes)
+
+    results = jsonify(results)
+
+    results.headers.add("Access-Control-Allow-Origin", "*")
 
     return results
     # return jsonify(results)
