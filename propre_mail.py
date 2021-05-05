@@ -3,9 +3,17 @@ import smtplib
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 import json
 from threading import Thread
 from os import environ
+
+def make_csv(data):
+    csv_file = 'Transaction ID,File Name,File Path\n'
+    for file_name in data["Files Path"]:
+        csv_file+= f'{data["Transaction ID"]},{file_name},{data["Files Path"][file_name]}\n'
+    return csv_file.encode()
 
 def send_email(strFrom, strTo, PASSWORD, data):
 
@@ -46,6 +54,18 @@ def send_email(strFrom, strTo, PASSWORD, data):
     msgImage.add_header('Content-ID', '<image1>')
     msgRoot.attach(msgImage)
     
+    json_attachment = MIMEBase('application', 'octet-stream')
+    json_attachment.set_payload(json.dumps(data, indent=4).encode())
+    encoders.encode_base64(json_attachment)
+    json_attachment.add_header('Content-Disposition', "attachment; filename= %s" % 'transaction_details.json')
+    msgRoot.attach(json_attachment)
+
+    csv_attachment = MIMEBase('application', 'octet-stream')
+    csv_attachment.set_payload(make_csv(data))
+    encoders.encode_base64(csv_attachment)
+    csv_attachment.add_header('Content-Disposition', "attachment; filename= %s" % 'transaction_details.csv')
+    msgRoot.attach(csv_attachment)
+
     smtp = smtplib.SMTP('smtp.gmail.com', 587)
     smtp.starttls()
     smtp.login(strFrom, PASSWORD)
