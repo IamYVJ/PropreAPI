@@ -23,6 +23,8 @@ app.config["DEBUG"] = True
 @app.route('/propre-api/proof', methods=['GET', 'POST'])
 def api_propre_proof():
 
+    print(request.get_json())
+
     files = []
 
     if 'files' in request.args:
@@ -40,6 +42,10 @@ def api_propre_proof():
 
     if len(files)!=len(hashes):
         error = {"Error" : "Different Number of Files and Hashes."}
+        return add_header(error)
+
+    if len(files)==0:
+        error = {"Error" : "No Files Sent."}
         return add_header(error)
 
     email = ''
