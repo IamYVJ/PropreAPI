@@ -20,13 +20,17 @@ def send_email(strFrom, strTo, PASSWORD, data):
     html_text = 'Dear User, <br> <br>Please find your transaction details below.<br><br>'
     html_text += f'<i>Transaction ID</i>: {data["Transaction ID"]}<br><br>'
 
+    html_text += '<ul>'
+
     plain_text = 'Dear User,\n\nPlease find your transaction details below. \n\n'
     plain_text += f'Transaction ID: {data["Transaction ID"]}\n\n'
 
     for file_name in data["Files Path"]:
-        html_text += f'<i>{file_name}</i>: {data["Files Path"][file_name]}<br>'
+        html_text += f'<li><i>{file_name}</i>: {data["Files Path"][file_name]}</li><br>'
         plain_text += f'{file_name}: {data["Files Path"][file_name]}\n'
-        
+    
+    html_text += '</ul>'
+
     html_text += '<br>Thank you for choosing us. <br><br>Sincerely,<br><b>PROPRE </b><br><br><img src="cid:image1"><br>'
     plain_text += '\nThank you for choosing us.\n\nSincerely,\nPROPRE\n'
 
