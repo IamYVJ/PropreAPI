@@ -23,7 +23,7 @@ app.config["DEBUG"] = True
 @app.route('/propre-api/proof', methods=['GET', 'POST'])
 def api_propre_proof():
 
-    print("HELLO", request.get_json())
+    print("HELLO", request.get_json(force=True))
 
     files = []
 
