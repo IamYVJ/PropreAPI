@@ -51,44 +51,44 @@ def api_propre_proof():
     if email!='' and check(email):
         make_email(email, results)
 
-    # results = add_header(results)
-    results = jsonify(results)
-    results.headers.add("Access-Control-Allow-Origin", "*")
+    results = add_header(results)
+    # results = jsonify(results)
+    # results.headers.add("Access-Control-Allow-Origin", "*")
 
     return results
 
-# @app.route('/propre-api/verify', methods=['GET', 'POST'])
-# def api_propre_verify():
+@app.route('/propre-api/verify', methods=['GET', 'POST'])
+def api_propre_verify():
 
-#     transaction_id = ''
+    transaction_id = ''
 
-#     if 'txid' in request.args:
-#         transaction_id = request.args['txid']
-#     else:
-#         error = {"Error" : "No Transaction ID Provided."}
-#         return add_header(error)
+    if 'txid' in request.args:
+        transaction_id = request.args['txid']
+    else:
+        error = {"Error" : "No Transaction ID Provided."}
+        return add_header(error)
 
-#     file_hash = ''
-#     if 'hash' in request.args:
-#         file_hash = request.args['hash']
-#     else:
-#         error = {"Error" : "No Hash Provided."}
-#         return add_header(error)
+    file_hash = ''
+    if 'hash' in request.args:
+        file_hash = request.args['hash']
+    else:
+        error = {"Error" : "No Hash Provided."}
+        return add_header(error)
 
-#     path_hash = ''
-#     if 'path' in request.args:
-#         path_hash = request.args['path']
-#     else:
-#         error = {"Error" : "No Path Provided."}
-#         return add_header(error)
+    path_hash = ''
+    if 'path' in request.args:
+        path_hash = request.args['path']
+    else:
+        error = {"Error" : "No Path Provided."}
+        return add_header(error)
 
-#     results = verify(transaction_id, file_hash, path_hash)
+    results = verify(transaction_id, file_hash, path_hash)
 
-#     results = {"verify" : results}
+    results = {"verify" : results}
 
-#     results = add_header(results)
+    results = add_header(results)
 
-#     return results
+    return results
 
 if __name__ == '__main__':
     app.run(threaded=True)
