@@ -62,7 +62,7 @@ def api_propre_proof():
     # return results
 
     data = request.get_json(force=True)
-
+    print(data)
     files = []
     hashes = []
 
@@ -87,9 +87,9 @@ def api_propre_proof():
         email = data["Email ID"]
     except:
         pass
-    
-    results = make_tree(files, hashes)
 
+    results = make_tree(files, hashes)
+    print(results)
     if email!='' and check(email):
         make_email(email, results)
 
