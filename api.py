@@ -1,9 +1,18 @@
 import flask
 from flask import request, jsonify
 from propre_tree import make_tree
+import re
+from propre_mail import make_email
+
+def check(email):
+    regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
+    if(re.search(regex, email)):
+        return True
+    else:
+        return False
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 
 @app.route('/propre/api', methods=['GET', 'POST'])
 def api_propre():
@@ -30,6 +39,9 @@ def api_propre():
         email = request.args['email']
 
     results = make_tree(files, hashes)
+
+    if email!='' and check(email):
+        make_email(email, results)
 
     results = jsonify(results)
 
