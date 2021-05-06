@@ -4,6 +4,7 @@ from propre_tree import make_tree
 from propre_verfiy import verify
 from propre_mail import make_email
 import re
+from flask_cors import CORS
 
 def check(email):
     regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
@@ -18,7 +19,8 @@ def add_header(data):
     return data
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
+CORS(app)
 
 @app.route('/propre-api/proof', methods=['GET', 'POST'])
 def api_propre_proof():
