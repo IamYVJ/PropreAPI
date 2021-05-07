@@ -1,6 +1,8 @@
 import hashlib
 from math import log2, ceil
 import json
+from encrypt_decrypt import encrypt
+from propre_tx import make_transaction
 
 def update_path(path, hash_left, hash_right, new_hash):
     for file_name in path:
@@ -61,7 +63,7 @@ def make_tree(files, hashes):
 
     # for row in hashes:
     #     print(row)
-    # save_path(path)
+    save_path(path)
 
     results = dict()
     results['Files Path'] = {}
@@ -69,7 +71,14 @@ def make_tree(files, hashes):
     for file_name in path:
         results['Files Path'][file_name] = path[file_name]['path']
 
-    results['Transaction ID'] = 'c3fca1ff3a6ab75943874c708b716a42de32fbb967b07b48406d7249b6009b9e'
+
+    root_hash = hashes[-1][-1]
+    # print(root_hash)
+    encrypted_hash = encrypt(root_hash)
+    # print(encrypted_hash)
+    tx_details = make_transaction(encrypted_hash)
+
+    results['Transaction'] = tx_details
 
     return results
                 

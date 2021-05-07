@@ -19,7 +19,7 @@ def add_header(data):
     return data
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 CORS(app)
 
 @app.route('/propre-api/proof', methods=['GET', 'POST'])
@@ -64,7 +64,7 @@ def api_propre_proof():
     # return results
 
     data = request.get_json(force=True)
-    print(data)
+    # print(data)
     files = []
     hashes = []
 
@@ -91,7 +91,7 @@ def api_propre_proof():
         pass
 
     results = make_tree(files, hashes)
-    print(results)
+    # print(results)
     if email!='' and check(email):
         make_email(email, results)
 
