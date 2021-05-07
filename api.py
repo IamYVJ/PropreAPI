@@ -19,7 +19,7 @@ def add_header(data):
     return data
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 CORS(app)
 
 @app.route('/propre-api/proof', methods=['GET', 'POST'])
