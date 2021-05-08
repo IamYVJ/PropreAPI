@@ -73,15 +73,15 @@ def api_propre_proof():
             files.append(file_name)
             hashes.append(data["Files"][file_name])
     except:
-        error = {"Error" : "JSON Error"}
+        error = {"Status": False, "Error" : "JSON Error"}
         return add_header(error)
     
     if len(files)!=len(hashes):
-        error = {"Error" : "Different Number of Files and Hashes."}
+        error = {"Status": False, "Error" : "Different Number of Files and Hashes."}
         return add_header(error)
 
     if len(files)==0:
-        error = {"Error" : "No Files Sent."}
+        error = {"Status": False, "Error" : "No Files Sent."}
         return add_header(error)
 
     email = ''
@@ -89,11 +89,19 @@ def api_propre_proof():
         email = data["Email ID"]
     except:
         pass
-
-    results = make_tree(files, hashes)
+    
+    try:
+        results = make_tree(files, hashes)
+        results["Status"] = True
+    except Exception as e:
+        results = {"Status": False, "Error" : str(e)}
     # print(results)
-    if email!='' and check(email):
-        make_email(email, results)
+    
+    try:
+        if email!='' and check(email):
+            make_email(email, results)
+    except:
+        pass
 
     results = add_header(results)
     # results = jsonify(results)
@@ -109,26 +117,27 @@ def api_propre_verify():
     if 'txid' in request.args:
         transaction_id = request.args['txid']
     else:
-        error = {"Error" : "No Transaction ID Provided."}
+        error = {"Status": False, "Error" : "No Transaction ID Provided."}
         return add_header(error)
 
     file_hash = ''
     if 'hash' in request.args:
         file_hash = request.args['hash']
     else:
-        error = {"Error" : "No Hash Provided."}
+        error = {"Status": False, "Error" : "No Hash Provided."}
         return add_header(error)
 
     path_hash = ''
     if 'path' in request.args:
         path_hash = request.args['path']
     else:
-        error = {"Error" : "No Path Provided."}
+        error = {"Status": False, "Error" : "No Path Provided."}
         return add_header(error)
-
-    results = verify(transaction_id, file_hash, path_hash)
-
-    results = {"verify" : results}
+    try:
+        results = verify(transaction_id, file_hash, path_hash)
+        results["Status"] = True
+    except Exception as e:
+        results = {"Status": False, "Error" : str(e)}
 
     results = add_header(results)
 
