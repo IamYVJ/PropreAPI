@@ -39,5 +39,5 @@ def verify(transaction_id, file_hash, path_hash):
     # print('----3')
     check = final_hash==calulated_final_hash
     
-    return check
+    return {"verify": check}
 
