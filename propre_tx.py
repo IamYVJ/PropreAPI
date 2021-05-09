@@ -3,7 +3,7 @@ import json
 from dotenv import load_dotenv
 from os import environ
 
-def make_transaction(data):
+def make_transaction(data, fee = 0.00000249):
     url = "https://api.cryptoapis.io/v1/bc/btc/testnet/txs/new"
 
     load_dotenv(dotenv_path='.env')
@@ -13,7 +13,6 @@ def make_transaction(data):
     WIFS = environ.get("WIFS")
 
     tx_amount = 0.00000001
-    fee = 0.00000249
 
     payload = json.dumps({
     "createTx": {
@@ -53,7 +52,13 @@ def make_transaction(data):
         del response_data["view_in_explorer"]
         return response_data
     elif response.status_code==400:
-        return response.json()["meta"]
+        error_data = response.json()["meta"]
+        if error_data["error"]["code"]==2003 and error_data["error"]["message"].find('Cannot send transaction: min relay fee not met, 250 < ')!=-1:
+            new_fee = float(error_data["error"]["message"][ len('Cannot send transaction: min relay fee not met, 250 < '):-10].strip())-1
+            print('Min Relay Fee Not Met. New Fee:', new_fee)
+            return make_transaction(data, float(0.00000001) * new_fee)
+        else:
+            return {"Error" : error_data["error"]}
     else:
         return {"Error" : response.text}
 
@@ -73,8 +78,9 @@ def get_transaction(tx_id):
     
     return {"Error" : response.text}
 
-# data = "F))))))))))))))))))))))))))))))))))))))))))"
-# print(make_transaction(data))
+# data = "1aceb2f20a220dcc7fa934084c948ee45df89eb9a502cba62d0fca730c887fb4"
+data = "F))))))))))))))))))))))))))))))))))))))))))"
+print(make_transaction(data))
 
 # tx_id = "5ed9f4571b8eef9b4925e7fc638acdfdd548ffeda488baee0864dfb2e06d1626"
 # print(get_transaction(tx_id))
