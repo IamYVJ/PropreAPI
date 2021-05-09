@@ -92,7 +92,10 @@ def api_propre_proof():
     
     try:
         results = make_tree(files, hashes)
-        results["Status"] = True
+        if "Error" in results:
+            results["Status"] = False
+        else:
+            results["Status"] = True
     except Exception as e:
         results = {"Status": False, "Error" : str(e)}
     # print(results)
