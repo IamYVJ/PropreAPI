@@ -79,8 +79,8 @@ def get_transaction(tx_id):
     return {"Error" : response.text}
 
 # data = "1aceb2f20a220dcc7fa934084c948ee45df89eb9a502cba62d0fca730c887fb4"
-data = "F))))))))))))))))))))))))))))))))))))))))))"
-print(make_transaction(data))
+# data = "F))))))))))))))))))))))))))))))))))))))))))"
+# print(make_transaction(data))
 
 # tx_id = "5ed9f4571b8eef9b4925e7fc638acdfdd548ffeda488baee0864dfb2e06d1626"
 # print(get_transaction(tx_id))
