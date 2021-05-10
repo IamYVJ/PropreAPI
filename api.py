@@ -138,7 +138,10 @@ def api_propre_verify():
         return add_header(error)
     try:
         results = verify(transaction_id, file_hash, path_hash)
-        results["Status"] = True
+        if "Error" in results:
+            results["Status"] = False
+        else:
+            results["Status"] = True
     except Exception as e:
         results = {"Status": False, "Error" : str(e)}
 
