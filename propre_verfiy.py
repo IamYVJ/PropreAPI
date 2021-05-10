@@ -30,9 +30,9 @@ def verify(transaction_id, file_hash, path_hash):
 
     transaction_data = get_transaction(transaction_id)
 
-    if "Error" in results:
-        return results
-        
+    if "Error" in transaction_data:
+        return transaction_data
+
     transaction_data = transaction_data["data_string"]
     # print(transaction_data)
     # print('----1')
