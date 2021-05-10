@@ -28,11 +28,12 @@ def hash_string(string):
 
 def verify(transaction_id, file_hash, path_hash):
 
-    transaction_data = get_transaction(transaction_id)["data_string"]
+    transaction_data = get_transaction(transaction_id)
 
     if "Error" in results:
         return results
-
+        
+    transaction_data = transaction_data["data_string"]
     # print(transaction_data)
     # print('----1')
     final_hash = decrypt(transaction_data)
