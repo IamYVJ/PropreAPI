@@ -169,25 +169,25 @@ def send_email(strFrom, strTo, PASSWORD, data):
 
     msgAlternative.attach(msgText)
 
-    fp = open(r'images\logo.png', 'rb')
+    fp = open('images\logo.png', 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
     msgImage.add_header('Content-ID', '<logo>')
     msgRoot.attach(msgImage)
 
-    fp = open(r'images\github.png', 'rb')
+    fp = open('images\github.png', 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
     msgImage.add_header('Content-ID', '<github>')
     msgRoot.attach(msgImage)
 
-    fp = open(r'images\email.png', 'rb')
+    fp = open('images\email.png', 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
     msgImage.add_header('Content-ID', '<email>')
     msgRoot.attach(msgImage)
 
-    fp = open(r'images\linkedin.png', 'rb')
+    fp = open('images\linkedin.png', 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
     msgImage.add_header('Content-ID', '<linkedin>')
