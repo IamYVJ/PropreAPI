@@ -2,7 +2,8 @@ import flask
 from flask import request, jsonify
 from propre_tree import make_tree
 from propre_verfiy import verify
-from propre_mail import make_email
+# from propre_mail import make_email
+from propre_html_mail import make_email
 import re
 from flask_cors import CORS
 
