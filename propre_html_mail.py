@@ -141,8 +141,8 @@ def send_email(strFrom, strTo, PASSWORD, data):
     path_html = ''
 
     for file_name in data["Files Path"]:
-        path_html += add_file_html(file_name, data["Files Path"][file_name]["path"])
-        plain_text += f'{file_name}: {data["Files Path"][file_name]["path"]}\n'
+        path_html += add_file_html(file_name, data["Files Path"][file_name])
+        plain_text += f'{file_name}: {data["Files Path"][file_name]}\n'
     
     html_text = html_text.replace("_ROW_DATA_", path_html)
 
