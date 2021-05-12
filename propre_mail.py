@@ -51,7 +51,7 @@ def send_email(strFrom, strTo, PASSWORD, data):
     msgText = MIMEText(html_text, 'html')
     msgAlternative.attach(msgText)
 
-    fp = open('small_logo.png', 'rb')
+    fp = open(r'images\small_logo.png', 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
 
