@@ -131,10 +131,12 @@ def send_email(strFrom, strTo, PASSWORD, data):
     with open('index.html', 'r') as f:
         html_text = f.read()
     
-    html_text = html_text.replace("TX_ID", data["Transaction ID"])
+    html_text = html_text.replace("TX_ID", data["Transaction"]["txid"])
+
+    html_text = html_text.replace("_BLOCKCHAIN_LINK_", data["Transaction"]["blockchain"])
 
     plain_text = 'Dear User,\n\nPlease find your transaction details below. \n\n'
-    plain_text += f'Transaction ID: {data["Transaction ID"]}\n\n'
+    plain_text += f'Transaction ID: {data["Transaction"]["txid"]}\n\n'
 
     path_html = ''
 
