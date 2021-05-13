@@ -63,7 +63,7 @@ def make_tree(files, hashes):
 
     # for row in hashes:
     #     print(row)
-    save_path(path)
+    # save_path(path)
 
     results = dict()
     results['Files Path'] = {}
