@@ -26,8 +26,11 @@ app.config["DEBUG"] = False
 CORS(app)
 
 @app.route('/')
-@app.route('/propre-api')
 def home():
+    return render_template('api_index.html')
+
+@app.route('/propre-api')
+def propre_home():
     return render_template('api_index.html')
 
 @app.route('/propre-api/proof', methods=['GET', 'POST'])
