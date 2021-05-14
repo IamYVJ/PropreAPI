@@ -155,24 +155,26 @@ def api_propre_verify():
 @app.route('/propre-api/feedback', methods=['GET', 'POST'])
 def api_propre_feedback():
 
+    data = request.get_json(force=True)
+
     first_name = ''
 
-    if 'First Name' in request.args:
-        first_name = request.args['First Name']
+    if 'First Name' in data:
+        first_name = data['First Name']
     else:
         error = {"Status": False, "Error" : "No First Name."}
         return add_header(error)
 
     last_name = ''
-    if 'Last Name' in request.args:
-        last_name = request.args['Last Name']
+    if 'Last Name' in data:
+        last_name = data['Last Name']
     else:
         error = {"Status": False, "Error" : "No Last Name."}
         return add_header(error)
 
     email_id = ''
-    if 'Email ID' in request.args:
-        email_id = request.args['Email ID']
+    if 'Email ID' in data:
+        email_id = data['Email ID']
     else:
         error = {"Status": False, "Error" : "No Email ID."}
         return add_header(error)
@@ -182,12 +184,12 @@ def api_propre_feedback():
         return add_header(error)
 
     phone_no = ''
-    if 'Phone' in request.args:
-        phone_no = request.args['Phone']
+    if 'Phone' in data:
+        phone_no = data['Phone']
 
     feedback_text = ''
-    if 'Feedback' in request.args:
-        feedback_text = request.args['Feedback']
+    if 'Feedback' in data:
+        feedback_text = data['Feedback']
     else:
         error = {"Status": False, "Error" : "No Feedback."}
         return add_header(error)
