@@ -6,6 +6,8 @@ from propre_verfiy import verify
 from propre_html_mail import make_email
 import re
 from flask_cors import CORS
+from propre_feedback import send_feedback
+
 
 def check(email):
     regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$'
@@ -143,6 +145,65 @@ def api_propre_verify():
             results["Status"] = False
         else:
             results["Status"] = True
+    except Exception as e:
+        results = {"Status": False, "Error" : str(e)}
+
+    results = add_header(results)
+
+    return results
+
+@app.route('/propre-api/feedback', methods=['GET', 'POST'])
+def api_propre_feedback():
+
+    first_name = ''
+
+    if 'First Name' in request.args:
+        first_name = request.args['First Name']
+    else:
+        error = {"Status": False, "Error" : "No First Name."}
+        return add_header(error)
+
+    last_name = ''
+    if 'Last Name' in request.args:
+        last_name = request.args['Last Name']
+    else:
+        error = {"Status": False, "Error" : "No Last Name."}
+        return add_header(error)
+
+    email_id = ''
+    if 'Email ID' in request.args:
+        email_id = request.args['Email ID']
+    else:
+        error = {"Status": False, "Error" : "No Email ID."}
+        return add_header(error)
+
+    if check(email_id)==False:
+        error = {"Status": False, "Error" : "Invalid Email ID."}
+        return add_header(error)
+
+    phone_no = ''
+    if 'Phone' in request.args:
+        phone_no = request.args['Phone']
+
+    feedback_text = ''
+    if 'Feedback' in request.args:
+        feedback_text = request.args['Feedback']
+    else:
+        error = {"Status": False, "Error" : "No Feedback."}
+        return add_header(error)
+    
+    data = {
+        'First Name' : first_name,
+        'Last Name' : last_name,
+        'Email ID' : email_id,
+        'Phone' : phone_no,
+        'Feedback' : feedback_text
+    }
+
+    results = {}
+    try:
+        send_feedback(data)
+        results["Status"] = True
     except Exception as e:
         results = {"Status": False, "Error" : str(e)}
 
