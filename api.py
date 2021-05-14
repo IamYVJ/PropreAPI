@@ -1,5 +1,5 @@
 import flask
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from propre_tree import make_tree
 from propre_verfiy import verify
 # from propre_mail import make_email
@@ -24,6 +24,11 @@ def add_header(data):
 app = flask.Flask(__name__)
 app.config["DEBUG"] = False
 CORS(app)
+
+@app.route('/')
+@app.route('/propre-api')
+def home():
+    return render_template('api_index.html')
 
 @app.route('/propre-api/proof', methods=['GET', 'POST'])
 def api_propre_proof():
