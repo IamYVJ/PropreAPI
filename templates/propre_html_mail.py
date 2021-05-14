@@ -128,7 +128,7 @@ def make_csv(data):
 
 def send_email(strFrom, strTo, PASSWORD, data):
 
-    with open('email_template.html', 'r') as f:
+    with open('templates/email_template.html', 'r') as f:
         html_text = f.read()
     
     html_text = html_text.replace("TX_ID", data["Transaction"]["txid"])
